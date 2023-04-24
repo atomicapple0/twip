@@ -1,4 +1,4 @@
-function [whdd thdd] = twip2_params( wh, whd, th, thd, motor_command )
+function [whdd thdd] = twip2( wh, whd, th, thd, motor_command )
 % compute a two wheeled inverted pendulum's forward dynamics
 
 % This version uses the wheel angle relative to the body as a state variable
@@ -44,5 +44,11 @@ rhs = transpose( v );
 result = Minv*rhs;
 whdd = result(1);
 thdd = result(2);
+
+% and plot it!
+x = wh * r_w;
+body_angle = th;
+xx = [x body_angle];
+plot_twip(xx, r_w, l_p);
 
 end
