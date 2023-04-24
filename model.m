@@ -1,6 +1,6 @@
 function [wh_new whd_new whdd_new th_new thd_new thdd_new] = model(wh, whd, th, thd, u)
 
-global DT
+DT = 1/100;
 
 % compute accelerations
 [whdd_new thdd_new] = twip2(wh, whd, th, thd, u);

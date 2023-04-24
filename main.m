@@ -1,12 +1,12 @@
 global first_time
-global DT
+global DT;
 first_time = true;
 
 % settings
 SAMPLES_PER_SECOND = 100;
-DURATION = 2;
+DURATION = 3;
 N = round(DURATION*SAMPLES_PER_SECOND);
-DT = DURATION/N;
+DT = 1/SAMPLES_PER_SECOND;
 
 x_array = zeros(N,2); % states
 xd_array = zeros(N,2); % velocities
@@ -17,13 +17,14 @@ u_array = zeros(N,1); % commands
 mx_array = zeros(N,4); % states
 
 % state is wh, whd, th, thd
-x_array(1,:) = [0, .3];
-xd_array(1,:) = [0, 0];
+x_array(1,:) = [4, -1];
+xd_array(1,:) = [5, 8];
 
 mx_array(1,:) = [x_array(1,1) xd_array(1,1) x_array(1,2) xd_array(1,2)];
 
 % lqr matrices
-Kc = [0.8981    5.4732  167.8600   16.2788];
+Kc = [31.4089   27.9839  399.4821   61.6703];
+% Kc = [0.8981    5.4732  167.8600   16.2788]; % when q r are all 1's
 % Kc = [0 0 200 0];
 % Kc = [0 0 0 0];
 A = [1 -.0182 0.0093 0;
@@ -53,7 +54,7 @@ for i = 2:N
     % compute model positions
     mx_array(i,:) = A * mx_array(i-1,:)' + B * u;
     
-    if abs(x_array(i,2)) > 1
+    if abs(x_array(i,2)) > 5
         x_array = x_array(1:i,:);
         xd_array = xd_array(1:i,:);
         xdd_array = xdd_array(1:i,:);
@@ -65,23 +66,23 @@ end
 
 figure(2)
 plot(x_array(:,1));
-title( 'wh' )
+title( 'wh over time (x axis in centiseconds)' )
 
 figure(3)
 plot(x_array(:,2));
-title( 'th' )
+title( 'th over time (x axis in centiseconds)' )
 
 figure(4)
 plot(xd_array(:,1));
-title( 'whd' )
+title( 'whd over time (x axis in centiseconds)' )
 
 figure(5)
 plot(xd_array(:,2));
-title( 'thd' )
+title( 'thd over time (x axis in centiseconds)' )
 
 figure(6)
 plot(u_array(:,1));
-title( 'u' )
+title( 'u over time (x axis in centiseconds)' )
 
 % figure(7)
 % plot(xdd_array(:,1));

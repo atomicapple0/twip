@@ -1,12 +1,12 @@
-deltas = [.1,.1,.1,.1]/100;
-
+delta = .01;
+DT = 1/100;
 A = zeros(4);
 % wh whd th thd
 init_state = [0,0,0,0];
 init_u = 0;
 
 for i = 1:4
-    delta = deltas(i);
+    u = init_u;
     state = init_state;
     state(i) = state(i) - delta;
     [wh_new whd_new whdd_new th_new thd_new thdd_new] = model(state(1), state(2), state(3), state(4), u);
@@ -21,7 +21,6 @@ for i = 1:4
     A(:,i) = deriv;
 end
 
-delta = .1;
 state = init_state;
 u = init_u - delta;
 [wh_new whd_new whdd_new th_new thd_new thdd_new] = model(state(1), state(2), state(3), state(4), u);
